@@ -63,7 +63,7 @@ void pushDouble(DoubleStack *stack, double element) {
 double popDouble(DoubleStack *stack) {
   if (isDoubleStackEmpty(stack)) {
     printf("Error: Double Stack is empty\n");
-    exit(1);
+    return NAN;
   }
   return stack->data[stack->top--];
 }
@@ -90,7 +90,6 @@ char *convertToRPN(const char *expression) {
   Stack outputStack;
   initStack(&operatorStack);
   initStack(&outputStack);
-
   size_t i;
   for (i = 0; i < strlen(expression); i++) {
     char currentChar = expression[i];
@@ -300,12 +299,15 @@ double evaluateRPN(char *expression) {
 
     } else if (currentChar == '_') {
       double number = popDouble(&numberStack);
-      number = number * -1;  
+      number = number * -1;
       pushDouble(&numberStack, number);
     } else if (currentChar == 's' || currentChar == 'c' || currentChar == 't' ||
                currentChar == 'S' || currentChar == 'C' || currentChar == 'T' ||
                currentChar == 'q' || currentChar == 'l' || currentChar == 'L') {
       double operand = popDouble(&numberStack);
+      if (isnan(operand)) {
+        return NAN;
+      }
       double result;
       switch (currentChar) {
         case 's':

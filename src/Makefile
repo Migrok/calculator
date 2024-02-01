@@ -36,9 +36,6 @@ dist:
 	cd ../dist && tar cvzf SmartCalc_v1.0.tgz *
 	cd ../dist && rm -rf SmartCalc
 
-dvi:ё
-	open ../README.md
-
 gcov_flag:
 	$(eval CFLAGS += --coverage)
 
